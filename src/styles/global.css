@@ -1,0 +1,19 @@
+
+*{
+    margin : 0;
+    padding : 0;
+    box-sizing: border-box;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+/* Variaveis para CSS */
+:root{
+    --white          : #fff;
+    --bright-blue    : #3A7BFD;
+    --light-gray     : #fafafa;
+    --grayish-blue   : #E4E5F1;
+}
+
+body{
+    background-color: rgb(24, 24, 36);
+}
