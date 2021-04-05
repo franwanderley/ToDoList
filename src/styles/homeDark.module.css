@@ -1,10 +1,12 @@
 
 .homecontainer{
     display:  flex;
-    flex-direction: column;
-    align-items:  center;
+    align-items:  flex-start;
+    height: 100vh;
+    width: 100vw;
     justify-content: center;
     text-align:  center;
+    background-color: rgb(24, 24, 36);
 }
 .homecontainer header{
         flex: 1;
@@ -36,16 +38,21 @@
     width: 50%;
     display :  flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
     border-radius: 4%;
     align-items:center;
     /* box-shadow: 0px 1px 1px 2px hsl(233, 14%, 35%); */
 }
+.homecontainer form input[type = "checkbox"]{
+    display: none;
+}
+
 .homecontainer .input{
     color: rgb(191, 196, 218);
     width : 80%;
     border: none;
     outline: none;
+    margin-left: 10%;
     font-weight: 400;
     font-size: 1.5rem;
     background: transparent;
@@ -64,9 +71,10 @@
 }
 .item{
     display :  flex;
-    padding: 3% 4%;
+    padding: 2.5% 4%;
     color: hsl(234, 39%, 85%);
     text-align: center;
+    align-items: center;
     flex-direction:row;
     justify-content: space-between;
     font-size: 1.5rem;
@@ -87,6 +95,7 @@
     font-weight: 400;
     text-align: left;
     width : 90%;
+    line-height: 35px;
 }
 .item p:before {
     content : "";
@@ -95,7 +104,7 @@
     padding: 0.1px 12px;
     margin-right: 2%;
     border-radius: 50%;
-    background-image: transparent;
+    background-color: transparent;
     cursor: pointer;
     border: 2px solid rgb( 46, 48, 69);
 }
@@ -127,3 +136,42 @@
     color: hsl(233, 31%, 54%);
 }
 
+@media screen and (max-width : 700px){
+    .homecontainer header{
+        padding-top: 5%;
+        padding-bottom: 50%;
+        align-items:center;
+    }
+    .homecontainer header h1{
+        font-size: 2rem;
+        line-height: 2rem;
+    }
+    .homecontainer header img{
+        vertical-align: inherit;
+    }
+    .homecontainer form{
+        width: 90%;
+        top : 20%;
+    }
+    .homecontainer .input{
+        font-size: 1.5rem;
+    }
+    .homecontainer .listtable{
+        width: 90%;
+        top : 30%;
+    }
+    
+    .item label, .item label p{
+        font-size: 1.5rem;
+        width: 100%;
+        word-wrap: break-word;
+    }
+    .item p:before {
+        padding: 1px 13px;
+        align-items:center;
+        margin-right: 5%;
+    }
+    .item label input:checked + p:before{
+        padding: 1px 8px;
+    }
+}

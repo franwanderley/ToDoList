@@ -1,0 +1,181 @@
+
+.homecontainer{
+    display:  flex;
+    align-items:  flex-start;
+    justify-content: center;
+    text-align:  center;
+    width: 100vw;
+    height : 100vh;
+    background-color: rgb(250, 250, 250);
+}
+.homecontainer header{
+        flex: 1;
+        display : flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
+        background: url('./../../public/bg-desktop-light.jpg') center no-repeat;
+        margin-bottom: 3%;
+        padding-top: 3%;
+        padding-bottom: 15%;
+    }
+.homecontainer header h1{        
+    color : #fafafa;
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 3rem;
+}
+.homecontainer header img{
+    cursor: pointer;
+}
+
+.homecontainer form{
+    background-color: rgb( 255, 255, 255);
+    position: absolute;
+    top : 20%;
+    padding: 2% 4%;
+    text-align: left;
+    width: 50%;
+    display :  flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-radius: 4%;
+    align-items:center;
+    /* box-shadow: 0px 1px 1px 2px hsl(233, 14%, 35%); */
+}
+.homecontainer form input[type = "checkbox"]{
+    display: none;
+}
+
+.homecontainer .input{
+    color: rgb(0, 0, 0);
+    width : 80%;
+    margin-left: 10%;
+    border: none;
+    outline: none;
+    font-weight: 400;
+    font-size: 1.5rem;
+    background: transparent;
+}
+
+.listtable{
+    margin: 3% 0;
+    position: absolute;
+    top : 30%;
+    display :  flex;
+    background-color: rgb( 255, 255, 255);
+    align-items:  flex-start;
+    flex-direction:column;
+    width: 50%;
+    box-shadow: 2px 2px 10px 2px #181818;
+}
+.item{
+    display :  flex;
+    padding: 2.5% 4%;
+    color: hsl(234, 39%, 0%);
+    text-align: center;
+    flex-direction:row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+    border-bottom: .5px solid hsl(234, 39%, 85%);
+    width: 100%;
+}
+.item a{
+    text-decoration: none;
+    cursor : pointer;
+}
+.item a:hover > img{
+    color: hsl(234, 11%, 52%);
+}
+.item input{
+    display : none;
+}
+.item label, .item label p{
+    font-weight: 400;
+    text-align: left;
+    width : 90%;
+    line-height: 35px;
+}
+.item p:before {
+    content : "";
+    height: 52px;
+    width: 52px;
+    padding: 0.1px 12px;
+    margin-right: 2%;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    border: 2px solid rgb( 46, 48, 69);
+}
+.item p:hover:before{
+    border: 2px solid rgb( 46, 48, 89);
+}
+
+.item label input:checked + p:before{
+    content: url(/icon/icon-check.svg);
+    background-image: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    padding: 0 6px;
+    border: none;
+}
+
+.listlink {
+    padding: 2%;
+    display :  flex;
+    flex-direction:row;
+    justify-content:space-between;
+    width: 100%;
+}
+.listlink a{
+    cursor : pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    color : hsl(233, 14%, 35%);
+}
+.listlink a:hover{
+    color: hsl(233, 14%, 10%);
+}
+.marcado {
+    color: hsl(233, 31%, 54%);
+}
+
+@media screen and (max-width : 700px){
+    .homecontainer header{
+        padding-top: 5%;
+        padding-bottom: 50%;
+        align-items:center;
+    }
+    .homecontainer header h1{
+        font-size: 2rem;
+        line-height: 2rem;
+    }
+    .homecontainer header img{
+        vertical-align: inherit;
+    }
+    .homecontainer form{
+        width: 90%;
+        top : 20%;
+    }
+    .homecontainer .input{
+        font-size: 1.5rem;
+    }
+    .homecontainer .listtable{
+        width: 90%;
+        top : 30%;
+    }
+    
+    .item label, .item label p{
+        font-size: 1.5rem;
+        width: 100%;
+        word-wrap: break-word;
+    }
+    .item p:before {
+        padding: 1px 13px;
+        align-items:center;
+        margin-right: 5%;
+    }
+    .item label input:checked + p:before{
+        padding: 1px 8px;
+    }
+}

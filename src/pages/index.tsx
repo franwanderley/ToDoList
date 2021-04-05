@@ -1,28 +1,27 @@
 import Head from 'next/head'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {FormEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
+import Cookies from 'js-cookie';
 
-import styles from './../styles/home.module.css';
+import stylesDark from './../styles/homeDark.module.css';
+import stylesLight from './../styles/homeLight.module.css';
+import { GetServerSideProps } from 'next';
 
 interface TodoList {
   texto    : string;
   isMarked : boolean;
-  date     : string;
 }
 
-export default function Home() {
+export default function Home( param : { listArr : TodoList[] } ) {
 
   function onSubmit(event : FormEvent){
     event.preventDefault();
-    const l = {texto : text, isMarked : marked, date : (new Date()).toLocaleDateString()}
+    const l = {texto : text, isMarked : marked}
     list ? setList( [...list, l] ) : setList( [l] );
 
     //limpar Formulario
     setText("");
     setMarked(false);
-  }
-  function mudarTema(){
-
   }
   function criarItem(l : TodoList){
     return (
@@ -54,12 +53,15 @@ export default function Home() {
       console.log(ToDoRemoved[0]?.texto);
   }
 
-  const [list, setList] = useState<TodoList[]>();
+  const [list, setList] = useState<TodoList[]>(param.listArr);
   const [listFiltred, setListFiltred] = useState<TodoList[]>();
   const [filters, setFilters] = useState(0);
+  const [theme, setTheme] = useState('light');
+  const [styles, setStyles] = useState(stylesDark);
   const [text, setText] = useState("");
   const [marked, setMarked] = useState(false);
 
+  //Filtrar Lista
   useEffect(() => {
     if(!list)
        setListFiltred(undefined);
@@ -80,6 +82,17 @@ export default function Home() {
     }
   }, [filters,list]);
 
+  //MUDAR TEMA
+  useEffect(() => {
+    let style = theme === 'dark' ?  stylesDark : stylesLight;
+    setStyles(style);  
+  }, [theme]);
+
+  //Salvar Lista no Cookies
+  useEffect(() => {
+    list && Cookies.set('list', list);
+  }, [list]);
+
   return (
       <div className={styles.homecontainer}>
         <Head>
@@ -88,11 +101,16 @@ export default function Home() {
         </Head>
         <header>
           <h1>TO DO</h1>
-          <Image onClick={mudarTema} src="/icon/icon-sun.svg" alt="Mudar Tema" layout="fixed" width={40} height={40}/>
+          <Image 
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+           src={`/icon/icon-${theme === 'dark' ? "sun" : "moon"}.svg`} 
+           alt="Mudar Tema" layout="intrinsic" width={40} height={40}/>
         </header>
 
-        <form onSubmit={onSubmit}>
-          <input onChange={() => setMarked(marked ? false : true)} type="checkbox"/>
+        <form className="formlist" onSubmit={onSubmit}>
+          <label>
+            <input onChange={() => setMarked(marked ? false : true)} type="checkbox"/>
+          </label>
           <input value={text} onChange={ event  => setText(event.target.value) } type="text" required className={styles.input}/>
           <button style={{display : 'none'}} type="submit"></button>
         </form>
@@ -108,4 +126,15 @@ export default function Home() {
         </div>
       </div>
   )
-}
+};
+
+export const getServerSideProps : GetServerSideProps = async (ctx) => {
+  const {list} = ctx.req.cookies;
+  const listArr = list ? JSON.parse(list) : null;
+
+  return {
+    props : {
+      listArr
+    }
+  };
+};
