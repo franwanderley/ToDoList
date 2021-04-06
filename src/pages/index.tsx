@@ -1,13 +1,14 @@
-import Head from 'next/head'
-import {FormEvent, useEffect, useState } from 'react';
+import Head from 'next/head';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
+import {FormEvent, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 import stylesDark from './../styles/homeDark.module.css';
 import stylesLight from './../styles/homeLight.module.css';
-import { GetServerSideProps } from 'next';
 
 interface TodoList {
+  id       : number;
   texto    : string;
   isMarked : boolean;
 }
@@ -16,7 +17,7 @@ export default function Home( param : { listArr : TodoList[] } ) {
 
   function onSubmit(event : FormEvent){
     event.preventDefault();
-    const l = {texto : text, isMarked : marked}
+    const l = {texto : text, isMarked : marked, id : list.length}
     list ? setList( [...list, l] ) : setList( [l] );
 
     //limpar Formulario
@@ -32,7 +33,7 @@ export default function Home( param : { listArr : TodoList[] } ) {
           :
             <input id="marked" key={l.texto+'input'} onChange={() => marcarToDo( l.texto )} type="checkbox"/>
           }
-          <p>{l.texto}</p>
+          <p style={l.isMarked ? {textDecorationLine : "line-through"} : {}}>{l.texto}</p>
         </label>
         <a onClick={() => excluirToDo(l.texto)} ><Image src="/icon/icon-cross.svg" alt="excluir" layout="fixed" width={20} height={20} /></a>
       </div>
@@ -56,7 +57,7 @@ export default function Home( param : { listArr : TodoList[] } ) {
   const [list, setList] = useState<TodoList[]>(param.listArr);
   const [listFiltred, setListFiltred] = useState<TodoList[]>();
   const [filters, setFilters] = useState(0);
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState( Cookies.get('ToDoList/theme') || 'light' );
   const [styles, setStyles] = useState(stylesDark);
   const [text, setText] = useState("");
   const [marked, setMarked] = useState(false);
@@ -85,7 +86,8 @@ export default function Home( param : { listArr : TodoList[] } ) {
   //MUDAR TEMA
   useEffect(() => {
     let style = theme === 'dark' ?  stylesDark : stylesLight;
-    setStyles(style);  
+    setStyles(style);
+    Cookies.set('ToDoList/theme', theme);  
   }, [theme]);
 
   //Salvar Lista no Cookies
@@ -123,14 +125,14 @@ export default function Home( param : { listArr : TodoList[] } ) {
             <a  style={filters == 1 ? {color: "hsl(233, 31%, 54%)"} : {}} onClick={() => setFilters(1)}>Active</a>
             <a  style={filters == 2 ? {color: "hsl(233, 31%, 54%)"} : {}} onClick={() => setFilters(2)}>Completed</a>
           </div>
-        </div>
+          </div>
       </div>
   )
 };
 
 export const getServerSideProps : GetServerSideProps = async (ctx) => {
   const {list} = ctx.req.cookies;
-  const listArr = list ? JSON.parse(list) : null;
+  const listArr = list ? JSON.parse(list) : [{}];
 
   return {
     props : {

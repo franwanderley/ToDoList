@@ -47,6 +47,7 @@
     display: none;
 }
 
+
 .homecontainer .input{
     color: rgb(191, 196, 218);
     width : 80%;
@@ -115,7 +116,7 @@
 .item label input:checked + p:before{
     content: url(/icon/icon-check.svg);
     background-image: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-    padding: 0 6px;
+    padding: 1px 8px;
     border: none;
 }
 
